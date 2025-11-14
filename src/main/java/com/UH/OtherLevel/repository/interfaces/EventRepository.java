@@ -10,6 +10,6 @@ public interface EventRepository {
     List<Event> findAll();
     Optional<Event> findById(Long id);
     Event save(Event event);
-    void deleteById (Long id);
+    boolean deleteById (Long id);
     boolean existById(Long id);
 }

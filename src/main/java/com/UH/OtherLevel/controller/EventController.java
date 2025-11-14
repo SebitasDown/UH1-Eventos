@@ -6,6 +6,7 @@ import com.UH.OtherLevel.model.Event;
 import com.UH.OtherLevel.service.EventService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,17 +39,32 @@ public class EventController {
         return  ResponseEntity.ok(eventDTOList);
     }
 
-    @GetMapping("/events/{id}")
-    public ResponseEntity<?> obtenerPorId (){
-        return null;
+    @GetMapping("/{id}")
+    public ResponseEntity<?> obtenerPorId (@PathVariable Long id){
+        Event event = eventService.findById(id);
+        EventDTO eventDTO = EventMapper.INSTANCE.toDTO(event);
+        return ResponseEntity.ok(eventDTO);
     }
 
-    @PutMapping("/events/{id}")
-    public ResponseEntity<?> editarEvento (){
-        return null;
+    @PutMapping("/{id}")
+    public ResponseEntity<EventDTO> editarEvento (@PathVariable Long id, @RequestBody EventDTO eventDTO){
+
+        Event event = EventMapper.INSTANCE.toModel(eventDTO);
+        event.setId(id);
+
+        Event updatedEvent = eventService.update(event);
+
+        EventDTO res = EventMapper.INSTANCE.toDTO(updatedEvent);
+        return ResponseEntity.ok(res);
     }
-    @DeleteMapping("/events/{id}")
-    public ResponseEntity<?> eliminarEvento (){
-        return null;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarEvento (@PathVariable Long id){
+        boolean eliminado = eventService.deleteById(id);
+        if (!eliminado) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró el evento con id: " + id);
+        }
+
+        return ResponseEntity.ok("Evento eliminado");
     }
 }

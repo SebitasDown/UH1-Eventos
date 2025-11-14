@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/venues")
 @RequiredArgsConstructor
@@ -24,12 +26,16 @@ public class VanueController {
     }
 
     @GetMapping
-    public ResponseEntity<?> obtenerTodosLosLugares (){
-        return null;
+    public ResponseEntity<List<VenueDTO>> obtenerTodosLosLugares (){
+        List<Venue> venue = venueService.getVanueAll();
+        List<VenueDTO> venueDTOList = VanueMapper.INSTANCE.toDTOList(venue);
+        return ResponseEntity.ok(venueDTOList);
     }
 
     @GetMapping("/events/{id}")
-    public ResponseEntity<?> obtenerPorId (){
+    public ResponseEntity<?> obtenerPorId (@PathVariable Long id){
+
+
         return null;
     }
 

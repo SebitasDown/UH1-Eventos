@@ -30,8 +30,19 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event update(Event event) {
-        return null;
+    public Event update(Event event) {;
+
+        Event exist = eventRepository.findById(event.getId())
+                .orElseThrow(()-> new IllegalArgumentException("Evento no encontrado"));
+
+        Long venueId = event.getVenue().getId();
+        Venue venue = venueRepository.findById(venueId)
+                .orElseThrow(() -> new IllegalArgumentException("Lugar no encontrado"));
+
+        exist.setName(event.getName());
+        exist.setDate(event.getDate());
+        exist.setVenue(venue);
+        return eventRepository.save(exist);
     }
 
     @Override
@@ -41,11 +52,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event findById(Long id) {
-        return null;
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Evento no encontrado"));
     }
 
     @Override
     public boolean deleteById(Long id) {
-        return false;
+        return eventRepository.deleteById(id);
     }
 }

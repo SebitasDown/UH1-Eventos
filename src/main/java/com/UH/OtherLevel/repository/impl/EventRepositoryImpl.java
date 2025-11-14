@@ -46,9 +46,8 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public void deleteById(Long id) {
-        events.removeIf(e -> e.getId().equals(id));
-
+    public boolean deleteById(Long id) {
+       return events.removeIf(e -> e.getId().equals(id));
     }
 
     @Override

@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class EventImpl implements EventRepository {
+public class EventRepositoryImpl implements EventRepository {
 
     //Base de datos en memoria
-    private List<Event> events;
+    private List<Event> events = new ArrayList<>();
     private Long IdContador = 1L;
 
     @Override

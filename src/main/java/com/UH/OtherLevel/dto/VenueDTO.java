@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VenueDTO {
-    private Long id;
-
     @NotBlank(message = "El nombre del venue no puede estar vacío")
     private String name;
 

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class VanueImpl implements VenueRepository {
+public class VanueRepositoryImpl implements VenueRepository {
     private final List<Venue> venues = new ArrayList<>();
     private Long idContador = 1L;
 

@@ -6,13 +6,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface VanueMapper {
     VanueMapper INSTANCE = Mappers.getMapper(VanueMapper.class);
+
     VenueDTO toDTO(Venue venue);
-    Venue toEntity(VenueDTO venueDTO);
+    Venue toModel(VenueDTO dto);
 
-    // Método para actualizar un entity existente desde un DTO
-    void updateFromDto(VenueDTO dto, @MappingTarget Venue entity);
-
+    List<VenueDTO> toDTOList(List<Venue> venues);
+    List<Venue> toModelList(List<VenueDTO> dtos);
 }
+

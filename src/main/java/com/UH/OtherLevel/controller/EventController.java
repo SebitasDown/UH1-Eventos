@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/events")
 @RequiredArgsConstructor
@@ -21,17 +23,19 @@ public class EventController {
         Event event = eventService.create(EventMapper.INSTANCE.toModel(eventDTO));
         // Mejor practica crear un DTO de respuesta Uno para la peticion y la respuesta
         EventDTO eventCreate = EventMapper.INSTANCE.toDTO(event);
-
-        EventDTO eventCreated2 = EventMapper.INSTANCE.
+        // Mejor forma y mas limpia
+       /* EventDTO eventCreated2 = EventMapper.INSTANCE.
                 toDTO(eventService.
-                        create(EventMapper.INSTANCE.toModel(eventDTO)));
+                        create(EventMapper.INSTANCE.toModel(eventDTO)));*/
 
         return ResponseEntity.ok(eventCreate);
     }
 
     @GetMapping
-    public ResponseEntity<?> obtenerTodosLosEventos (){
-        return null;
+    public ResponseEntity<List<EventDTO>> obtenerTodosLosEventos (){
+        List<Event> events = eventService.getEventAll();
+        List<EventDTO> eventDTOList = EventMapper.INSTANCE.toDTOList(events);
+        return  ResponseEntity.ok(eventDTOList);
     }
 
     @GetMapping("/events/{id}")

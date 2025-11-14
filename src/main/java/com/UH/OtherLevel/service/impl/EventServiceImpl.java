@@ -1,17 +1,32 @@
 package com.UH.OtherLevel.service.impl;
 
 import com.UH.OtherLevel.model.Event;
+import com.UH.OtherLevel.model.Venue;
+import com.UH.OtherLevel.repository.interfaces.EventRepository;
+import com.UH.OtherLevel.repository.interfaces.VenueRepository;
 import com.UH.OtherLevel.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
+
+    private final EventRepository eventRepository;
+    private final VenueRepository venueRepository;
     @Override
     public Event create(Event event) {
-        event.getName();
-        return event;
+        if (event.getName() == null || event.getName().isBlank()){
+            throw new IllegalArgumentException("El nombre no puede estar vacio");
+        }
+
+        Long venueId = event.getVenue().getId();
+        Venue venue = venueRepository.findById(venueId)
+                .orElseThrow(() -> new IllegalArgumentException("Lugar no encontrado" + venueId));
+        event.setVenue(venue);
+        return eventRepository.save(event);
     }
 
     @Override
@@ -21,7 +36,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getEventAll() {
-        return List.of();
+        return eventRepository.findAll();
     }
 
     @Override
